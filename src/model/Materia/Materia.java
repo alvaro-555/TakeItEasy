@@ -1,4 +1,4 @@
-package model;
+package model.Materia;
 
 public class Materia {
 
