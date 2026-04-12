@@ -1,5 +1,5 @@
 package model.Calendario;
-import model.Materia;
+import model.Materia.Materia;
 import model.Actividad.*;
 
 public class Recordatorio {

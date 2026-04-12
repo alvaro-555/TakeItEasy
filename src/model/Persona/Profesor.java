@@ -1,6 +1,7 @@
 package model.Persona;
 import java.util.List;
 import model.*;
+import model.Materia.Materia;
 
 public class Profesor extends Persona {
     private List<Materia> materiasACargo;

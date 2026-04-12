@@ -80,12 +80,12 @@ public class Main {
 
                     usuarios.add(user);
 
-                    System.out.println("✅ Usuario registrado con éxito");
+                    System.out.println("Usuario registrado con éxito");
                     break;
 
                 case 2:
                     // LOGIN
-                    System.out.println("\n--- LOGIN ---");
+                    System.out.println("\n--- Iniciar Sesion ---");
 
                     System.out.print("Username: ");
                     String userLogin = sc.nextLine();
@@ -96,10 +96,10 @@ public class Main {
                     Usuario logueado = auth.login(userLogin, passLogin, usuarios);
 
                     if (logueado != null) {
-                        System.out.println("✅ Bienvenido " +
+                        System.out.println("Bienvenido " +
                                 logueado.getPersona().getNombres());
                     } else {
-                        System.out.println("❌ Credenciales incorrectas");
+                        System.out.println("Credenciales incorrectas");
                     }
 
                     break;
@@ -109,7 +109,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("❌ Opción inválida");
+                    System.out.println("Opción inválida");
             }
 
         } while (opcion != 0);
