@@ -1,19 +1,32 @@
 package model.Persona;
+
 import java.util.List;
-import model.*;
 import model.Materia.Materia;
 
 public class Estudiante extends Persona {
+
+    private static int contador = 1; // contador global
+
+    private String id; 
+
     private String carrera;
     private int semestre;
     private List<Materia> materiasCursando;
 
-    public Estudiante() {}
+    public Estudiante() {
+        this.id = "E" + contador++;
+    }
 
     public Estudiante(String carrera, int semestre, List<Materia> materiasCursando) {
+        this.id = "E" + contador++; // generación automática
         this.carrera = carrera;
         this.semestre = semestre;
         this.materiasCursando = materiasCursando;
+    }
+
+    
+    public String getId() {
+        return id;
     }
 
     public String getCarrera() { return carrera; }
@@ -28,10 +41,10 @@ public class Estudiante extends Persona {
     @Override
     public String toString() {
         return "Estudiante{" +
-                "carrera='" + carrera + '\'' +
+                "id='" + id + '\'' + 
+                ", carrera='" + carrera + '\'' +
                 ", semestre=" + semestre +
                 ", materias=" + materiasCursando +
                 '}';
     }
 }
-

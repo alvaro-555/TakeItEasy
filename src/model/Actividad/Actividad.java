@@ -46,4 +46,7 @@ public abstract class Actividad {
                 ", fecha='" + fecha + '\'' +
                 '}';
     }
+    public boolean estaPendiente() {
+    return calificacion == 0;
+}
 }
