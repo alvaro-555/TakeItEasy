@@ -1,4 +1,5 @@
 package model.Materia;
+import Servicio.ComparadorFechas;
 import Servicio.ArbolAVL.*;
 import model.Actividad.*;
 import model.Persona.*;
@@ -120,6 +121,46 @@ public void mostrarActividadesOrdenadas() {
 
     while (aux != null) {
         System.out.println(aux.getDato());
+        aux = aux.getSiguiente();
+    }
+}
+public void mostrarCronograma() {
+
+    Nodo<Actividad> i = actividades.getCabeza();
+
+    while (i != null) {
+        Nodo<Actividad> j = i.getSiguiente();
+
+        while (j != null) {
+
+            Actividad a1 = i.getDato();
+            Actividad a2 = j.getDato();
+
+            if (ComparadorFechas.esMenor(a2.getFechaEntrega(), a1.getFechaEntrega())) {
+
+                Actividad temp = i.getDato();
+                i.setDato(j.getDato());
+                j.setDato(temp);
+            }
+
+            j = j.getSiguiente();
+        }
+
+        i = i.getSiguiente();
+    }
+
+    Nodo<Actividad> aux = actividades.getCabeza();
+
+    while (aux != null) {
+
+        Actividad a = aux.getDato();
+
+        System.out.println(
+            a.getFechaEntrega() + " - " +
+            a.getHoraEntrega() + " | " +
+            a.toString()
+        );
+
         aux = aux.getSiguiente();
     }
 }

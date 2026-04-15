@@ -9,7 +9,7 @@ public class Parcial extends Actividad {
     private String tiempo;
 
     public Parcial() {
-        super(0, "", "", false, 0);
+        super();
         contador++;
         this.id = "P" + contador;
     }
@@ -44,6 +44,8 @@ public class Parcial extends Actividad {
         return "Parcial{" +
                 "id='" + id + '\'' +
                 ", importancia=" + getImportancia() +
+                ", estado='" + getEstado() + '\'' +
+                ", fecha='" + getFechaEntrega() + '\'' +
                 '}';
     }
 }

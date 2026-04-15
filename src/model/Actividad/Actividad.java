@@ -1,14 +1,21 @@
 package model.Actividad;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public abstract class Actividad {
 
     private int calificacion;
     private String fechaEntrega;
     private String horaEntrega;
     private boolean grupal;
-    private int importancia;
 
-    public Actividad() {}
+    private int importancia;
+    private String estado;
+
+    public Actividad() {
+        this.estado = "P";
+    }
 
     public Actividad(int calificacion,
                      String fechaEntrega,
@@ -21,6 +28,12 @@ public abstract class Actividad {
         this.horaEntrega = horaEntrega;
         this.grupal = grupal;
         this.importancia = importancia;
+        this.estado = "P";
+    }
+
+    public LocalDate getFechaEntregaDate() {
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(fechaEntrega, f);
     }
 
     public int getCalificacion() { return calificacion; }
@@ -38,8 +51,16 @@ public abstract class Actividad {
     public int getImportancia() { return importancia; }
     public void setImportancia(int importancia) { this.importancia = importancia; }
 
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
+
     @Override
     public String toString() {
-        return "Actividad | importancia=" + importancia + " | nota=" + calificacion;
+        return "Actividad{" +
+                "nota=" + calificacion +
+                ", importancia=" + importancia +
+                ", estado='" + estado + '\'' +
+                ", fechaEntrega='" + fechaEntrega + '\'' +
+                '}';
     }
 }

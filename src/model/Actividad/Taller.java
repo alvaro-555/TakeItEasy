@@ -9,7 +9,7 @@ public class Taller extends Actividad {
     private String descripcion;
 
     public Taller() {
-        super(0, "", "", false, 0);
+        super();
         contador++;
         this.id = "T" + contador;
     }
@@ -44,6 +44,8 @@ public class Taller extends Actividad {
         return "Taller{" +
                 "id='" + id + '\'' +
                 ", importancia=" + getImportancia() +
+                ", estado='" + getEstado() + '\'' +
+                ", fecha='" + getFechaEntrega() + '\'' +
                 '}';
     }
 }

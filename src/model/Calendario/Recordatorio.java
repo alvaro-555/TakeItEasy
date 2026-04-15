@@ -1,32 +1,25 @@
 package model.Calendario;
-import model.Materia.Materia;
-import model.Actividad.*;
 
 public class Recordatorio {
 
-    private String informacion;
-    private Materia materia;
-    private Actividad actividad;
+    private String mensaje;
+    private String tipo; 
 
     public Recordatorio() {}
 
-    public Recordatorio(String informacion, Materia materia, Actividad actividad) {
-        this.informacion = informacion;
-        this.materia = materia;
-        this.actividad = actividad;
+    public Recordatorio(String mensaje, String tipo) {
+        this.mensaje = mensaje;
+        this.tipo = tipo;
     }
 
-    public String getInformacion() { return informacion; }
-    public void setInformacion(String informacion) { this.informacion = informacion; }
+    public String getMensaje() { return mensaje; }
+    public void setMensaje(String mensaje) { this.mensaje = mensaje; }
 
-    public Materia getMateria() { return materia; }
-    public void setMateria(Materia materia) { this.materia = materia; }
-
-    public Actividad getActividad() { return actividad; }
-    public void setActividad(Actividad actividad) { this.actividad = actividad; }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
     @Override
     public String toString() {
-        return informacion;
+        return "[" + tipo + "] " + mensaje;
     }
 }

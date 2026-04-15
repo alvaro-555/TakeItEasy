@@ -10,7 +10,7 @@ public class Quiz extends Actividad {
     private String tiempo;
 
     public Quiz() {
-        super(0, "", "", false, 0);
+        super();
         contador++;
         this.id = "Q" + contador;
     }
@@ -50,6 +50,8 @@ public class Quiz extends Actividad {
         return "Quiz{" +
                 "id='" + id + '\'' +
                 ", importancia=" + getImportancia() +
+                ", estado='" + getEstado() + '\'' +
+                ", fecha='" + getFechaEntrega() + '\'' +
                 '}';
     }
 }
