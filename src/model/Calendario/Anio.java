@@ -1,28 +1,45 @@
 package model.Calendario;
-
-import java.util.List;
+import Servicio.ListaEnlazada.*;
 
 public class Anio {
+
     private int numero;
-    private List<Mes> meses;
+    private ListaEnlazada<Mes> meses;
 
-    public Anio() {}
+    public Anio() {
+        meses = new ListaEnlazada<>();
+    }
 
-    public Anio(int numero, List<Mes> meses) {
+    public Anio(int numero) {
         this.numero = numero;
+        this.meses = new ListaEnlazada<>();
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public ListaEnlazada<Mes> getMeses() {
+        return meses;
+    }
+
+    public void setMeses(ListaEnlazada<Mes> meses) {
         this.meses = meses;
     }
 
-    public int getNumero() { return numero; }
-    public void setNumero(int numero) { this.numero = numero; }
-
-    public List<Mes> getMeses() { return meses; }
-    public void setMeses(List<Mes> meses) { this.meses = meses; }
+    public void agregarMes(Mes m) {
+        meses.agregar(m);
+    }
 
     @Override
     public String toString() {
-        return "Año{" +
+        return "Anio{" +
                 "numero=" + numero +
+                ", meses=\n" + meses +
                 '}';
     }
 }

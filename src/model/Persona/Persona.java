@@ -1,37 +1,44 @@
 package model.Persona;
 
-public class Persona {
+public abstract class Persona {
+
     private String nombres;
     private String apellidos;
-    private String correoElectronico;
-    private String numIdentificacion;
+    private String correo;
+    private String identificacion;
     private String tipoDoc;
     private int edad;
 
     public Persona() {}
 
-    public Persona(String nombres, String apellidos, String correoElectronico,
-                   String numIdentificacion, String tipoDoc, int edad) {
+    public Persona(String nombres, String apellidos, String correo,
+                   String identificacion, String tipoDoc, int edad) {
         this.nombres = nombres;
         this.apellidos = apellidos;
-        this.correoElectronico = correoElectronico;
-        this.numIdentificacion = numIdentificacion;
+        this.correo = correo;
+        this.identificacion = identificacion;
         this.tipoDoc = tipoDoc;
         this.edad = edad;
     }
+    public String getCorreoElectronico() {
+    return correo;
+}
 
-    // Getters y Setters
+public void setCorreoElectronico(String correoElectronico) {
+    this.correo = correoElectronico;
+}
+
     public String getNombres() { return nombres; }
     public void setNombres(String nombres) { this.nombres = nombres; }
 
     public String getApellidos() { return apellidos; }
     public void setApellidos(String apellidos) { this.apellidos = apellidos; }
 
-    public String getCorreoElectronico() { return correoElectronico; }
-    public void setCorreoElectronico(String correoElectronico) { this.correoElectronico = correoElectronico; }
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
 
-    public String getNumIdentificacion() { return numIdentificacion; }
-    public void setNumIdentificacion(String numIdentificacion) { this.numIdentificacion = numIdentificacion; }
+    public String getIdentificacion() { return identificacion; }
+    public void setIdentificacion(String identificacion) { this.identificacion = identificacion; }
 
     public String getTipoDoc() { return tipoDoc; }
     public void setTipoDoc(String tipoDoc) { this.tipoDoc = tipoDoc; }
@@ -41,14 +48,6 @@ public class Persona {
 
     @Override
     public String toString() {
-        return "Persona{" +
-                "nombres='" + nombres + '\'' +
-                ", apellidos='" + apellidos + '\'' +
-                ", correo='" + correoElectronico + '\'' +
-                ", id='" + numIdentificacion + '\'' +
-                ", tipoDoc='" + tipoDoc + '\'' +
-                ", edad=" + edad +
-                '}';
+        return nombres + " " + apellidos + " (" + identificacion + ")";
     }
 }
-

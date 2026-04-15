@@ -1,32 +1,44 @@
 package model.Persona;
-
-import java.util.List;
+import Servicio.ListaEnlazada.*;
 import model.Materia.Materia;
 
 public class Estudiante extends Persona {
 
-    private static int contador = 1; // contador global
+    private static int contador = 0;
 
-    private String id; 
-
+    private String id;
     private String carrera;
     private int semestre;
-    private List<Materia> materiasCursando;
+    private ListaEnlazada<Materia> materias;
 
     public Estudiante() {
-        this.id = "E" + contador++;
+        contador++;
+        this.id = "E" + contador;
+        materias = new ListaEnlazada<>();
     }
 
-    public Estudiante(String carrera, int semestre, List<Materia> materiasCursando) {
-        this.id = "E" + contador++; // generación automática
+    public Estudiante(String nombres, String apellidos, String correo,
+                      String identificacion, String tipoDoc, int edad,
+                      String carrera, int semestre) {
+
+        super(nombres, apellidos, correo, identificacion, tipoDoc, edad);
+
+        contador++;
+        this.id = "E" + contador;
+
         this.carrera = carrera;
         this.semestre = semestre;
-        this.materiasCursando = materiasCursando;
+        this.materias = new ListaEnlazada<>();
     }
 
-    
+    // 🔥 ID automático
     public String getId() {
         return id;
+    }
+
+    // compatibilidad opcional
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCarrera() { return carrera; }
@@ -35,16 +47,20 @@ public class Estudiante extends Persona {
     public int getSemestre() { return semestre; }
     public void setSemestre(int semestre) { this.semestre = semestre; }
 
-    public List<Materia> getMateriasCursando() { return materiasCursando; }
-    public void setMateriasCursando(List<Materia> materiasCursando) { this.materiasCursando = materiasCursando; }
+    public ListaEnlazada<Materia> getMaterias() { return materias; }
+    public void setMateriasCursando(ListaEnlazada<Materia> materias) { this.materias = materias; }
+
+   
+    public ListaEnlazada<Materia> getMateriasCursando() {
+        return materias;
+    }
+
+    public void agregarMateria(Materia m) {
+        materias.agregar(m);
+    }
 
     @Override
     public String toString() {
-        return "Estudiante{" +
-                "id='" + id + '\'' + 
-                ", carrera='" + carrera + '\'' +
-                ", semestre=" + semestre +
-                ", materias=" + materiasCursando +
-                '}';
+        return super.toString() + " - Estudiante " + id + " de " + carrera;
     }
 }

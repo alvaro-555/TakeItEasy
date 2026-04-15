@@ -2,9 +2,8 @@ package Servicio;
 
 import java.time.YearMonth;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import model.Calendario.*;
+import Servicio.ListaEnlazada.*;
 
 public class GenerarCalendario {
 
@@ -12,42 +11,48 @@ public class GenerarCalendario {
 
         int anioActual = LocalDate.now().getYear();
 
-        List<Mes> listaMeses = new ArrayList<>();
+        ListaEnlazada<Mes> listaMeses = new ListaEnlazada<>();
 
         for (int i = 1; i <= 12; i++) {
 
             YearMonth anioMes = YearMonth.of(anioActual, i);
             int cantidadDias = anioMes.lengthOfMonth();
 
-            List<Dia> listaDias = new ArrayList<>();
+            ListaEnlazada<Dia> listaDias = new ListaEnlazada<>();
 
             for (int d = 1; d <= cantidadDias; d++) {
                 Dia dia = new Dia();
                 dia.setNumero(d);
-                listaDias.add(dia);
+                listaDias.agregar(dia);
             }
 
             Mes mes = new Mes();
 
-            // Meses en español 🔥
-            String[] nombresMeses = {
-                "Enero", "Febrero", "Marzo", "Abril",
-                "Mayo", "Junio", "Julio", "Agosto",
-                "Septiembre", "Octubre", "Noviembre", "Diciembre"
-            };
+            // asignación directa sin array
+            if (i == 1) mes.setNombre("Enero");
+            else if (i == 2) mes.setNombre("Febrero");
+            else if (i == 3) mes.setNombre("Marzo");
+            else if (i == 4) mes.setNombre("Abril");
+            else if (i == 5) mes.setNombre("Mayo");
+            else if (i == 6) mes.setNombre("Junio");
+            else if (i == 7) mes.setNombre("Julio");
+            else if (i == 8) mes.setNombre("Agosto");
+            else if (i == 9) mes.setNombre("Septiembre");
+            else if (i == 10) mes.setNombre("Octubre");
+            else if (i == 11) mes.setNombre("Noviembre");
+            else mes.setNombre("Diciembre");
 
-            mes.setNombre(nombresMeses[i - 1]);
             mes.setDias(listaDias);
 
-            listaMeses.add(mes);
+            listaMeses.agregar(mes);
         }
 
         Anio anio = new Anio();
         anio.setNumero(anioActual);
         anio.setMeses(listaMeses);
 
-        List<Anio> listaAnios = new ArrayList<>();
-        listaAnios.add(anio);
+        ListaEnlazada<Anio> listaAnios = new ListaEnlazada<>();
+        listaAnios.agregar(anio);
 
         Calendario calendario = new Calendario();
         calendario.setAnios(listaAnios);

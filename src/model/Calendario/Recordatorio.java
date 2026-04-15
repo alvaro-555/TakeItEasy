@@ -3,6 +3,7 @@ import model.Materia.Materia;
 import model.Actividad.*;
 
 public class Recordatorio {
+
     private String informacion;
     private Materia materia;
     private Actividad actividad;
@@ -26,8 +27,6 @@ public class Recordatorio {
 
     @Override
     public String toString() {
-        return "Recordatorio{" +
-                "info='" + informacion + '\'' +
-                '}';
+        return informacion;
     }
 }

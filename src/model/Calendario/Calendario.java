@@ -1,22 +1,34 @@
 package model.Calendario;
-import java.util.List;
+import Servicio.ListaEnlazada.*;
 
 public class Calendario {
-    private List<Anio> anios;
 
-    public Calendario() {}
+    private ListaEnlazada<Anio> anios;
 
-    public Calendario(List<Anio> anios) {
+    public Calendario() {
+        anios = new ListaEnlazada<>();
+    }
+
+    public Calendario(ListaEnlazada<Anio> anios) {
         this.anios = anios;
     }
 
-    public List<Anio> getAnios() { return anios; }
-    public void setAnios(List<Anio> anios) { this.anios = anios; }
+    public ListaEnlazada<Anio> getAnios() {
+        return anios;
+    }
+
+    public void setAnios(ListaEnlazada<Anio> anios) {
+        this.anios = anios;
+    }
+
+    public void agregarAnio(Anio a) {
+        anios.agregar(a);
+    }
 
     @Override
     public String toString() {
         return "Calendario{" +
-                "años=" + anios +
+                "anios=\n" + anios +
                 '}';
     }
 }

@@ -1,26 +1,26 @@
 package model.Actividad;
 
 public abstract class Actividad {
+
     private int calificacion;
     private String fecha;
     private String hora;
     private String fechaEntrega;
     private String horaEntrega;
-    private boolean esGrupal;
+    private boolean grupal;
 
     public Actividad() {}
 
     public Actividad(int calificacion, String fecha, String hora,
-                     String fechaEntrega, String horaEntrega, boolean esGrupal) {
+                     String fechaEntrega, String horaEntrega, boolean grupal) {
         this.calificacion = calificacion;
         this.fecha = fecha;
         this.hora = hora;
         this.fechaEntrega = fechaEntrega;
         this.horaEntrega = horaEntrega;
-        this.esGrupal = esGrupal;
+        this.grupal = grupal;
     }
 
-    // Getters y Setters
     public int getCalificacion() { return calificacion; }
     public void setCalificacion(int calificacion) { this.calificacion = calificacion; }
 
@@ -36,17 +36,11 @@ public abstract class Actividad {
     public String getHoraEntrega() { return horaEntrega; }
     public void setHoraEntrega(String horaEntrega) { this.horaEntrega = horaEntrega; }
 
-    public boolean isEsGrupal() { return esGrupal; }
-    public void setEsGrupal(boolean esGrupal) { this.esGrupal = esGrupal; }
+    public boolean isGrupal() { return grupal; }
+    public void setGrupal(boolean grupal) { this.grupal = grupal; }
 
     @Override
     public String toString() {
-        return "Actividad{" +
-                "calificacion=" + calificacion +
-                ", fecha='" + fecha + '\'' +
-                '}';
+        return "Calificación: " + calificacion;
     }
-    public boolean estaPendiente() {
-    return calificacion == 0;
-}
 }

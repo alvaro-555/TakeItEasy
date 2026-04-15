@@ -1,63 +1,67 @@
 package principal;
-import model.InicioSesion.Usuario;
-import model.Materia.Materia;
-import model.Persona.Estudiante;
-import model.Actividad.Actividad;
-import model.Calendario.*;
-import Servicio.GenerarCalendario;
 
-import java.util.ArrayList;
-import java.util.List;
+import Servicio.ListaEnlazada.*;
+import model.InicioSesion.*;
+import Servicio.ValidacionIniSesi;
+import Servicio.GenerarCalendario;
+import model.Persona.*;
+import model.Calendario.*;
+import model.Materia.*;
+import model.Actividad.*;
+
 import java.util.Scanner;
 
-
-import Servicio.ValidacionIniSesi;
 public class Main {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        List<Usuario> usuarios = new ArrayList<>();
+
+        ListaEnlazada<Usuario> usuarios = new ListaEnlazada<>();
         ValidacionIniSesi auth = new ValidacionIniSesi();
 
         int opcion;
 
         do {
+
             System.out.println("\n===== MENU =====");
             System.out.println("1. Registrarse");
             System.out.println("2. Iniciar sesión");
             System.out.println("0. Salir");
             System.out.print("Seleccione: ");
+
             opcion = sc.nextInt();
-            sc.nextLine(); // limpiar buffer
+            sc.nextLine();
 
             switch (opcion) {
 
-                case 1:
-                    // REGISTRO
+                case 1: {
+
                     System.out.println("\n--- REGISTRO ---");
 
+                    Estudiante est = new Estudiante();
+
                     System.out.print("Nombres: ");
-                    String nombres = sc.nextLine();
+                    est.setNombres(sc.nextLine());
 
                     System.out.print("Apellidos: ");
-                    String apellidos = sc.nextLine();
+                    est.setApellidos(sc.nextLine());
 
                     System.out.print("Correo: ");
-                    String correo = sc.nextLine();
+                    est.setCorreoElectronico(sc.nextLine());
 
                     System.out.print("Tipo documento: ");
-                    String tipoDoc = sc.nextLine();
+                    est.setTipoDoc(sc.nextLine());
 
                     System.out.print("Edad: ");
-                    int edad = sc.nextInt();
+                    est.setEdad(sc.nextInt());
                     sc.nextLine();
 
                     System.out.print("Carrera: ");
-                    String carrera = sc.nextLine();
+                    est.setCarrera(sc.nextLine());
 
                     System.out.print("Semestre: ");
-                    int semestre = sc.nextInt();
+                    est.setSemestre(sc.nextInt());
                     sc.nextLine();
 
                     System.out.print("Username: ");
@@ -66,27 +70,18 @@ public class Main {
                     System.out.print("Password: ");
                     String password = sc.nextLine();
 
-                    // Crear estudiante
-                    Estudiante est = new Estudiante();
-                    est.setNombres(nombres);
-                    est.setApellidos(apellidos);
-                    est.setCorreoElectronico(correo);
-                    est.setTipoDoc(tipoDoc);
-                    est.setEdad(edad);
-                    est.setCarrera(carrera);
-                    est.setSemestre(semestre);
-
-                    // Crear usuario
                     Usuario user = new Usuario(username, password, est);
 
-                    usuarios.add(user);
+                    usuarios.agregar(user);
 
                     System.out.println("Usuario registrado con éxito");
-                    break;
 
-                case 2:
-                    // LOGIN
-                    System.out.println("\n--- Iniciar Sesion ---");
+                    break;
+                }
+
+                case 2: {
+
+                    System.out.println("\n--- LOGIN ---");
 
                     System.out.print("Username: ");
                     String userLogin = sc.nextLine();
@@ -96,165 +91,339 @@ public class Main {
 
                     Usuario logueado = auth.login(userLogin, passLogin, usuarios);
 
-                    if (logueado != null) {
-                        System.out.println("Bienvenido " +
-                                logueado.getPersona().getNombres());
-                    } else {
+                    if (logueado == null) {
                         System.out.println("Credenciales incorrectas");
-                    }
-                    if (logueado != null) {
-                    
-
-    // Obtener estudiante
-    Estudiante E1 = (Estudiante) logueado.getPersona();
-
-    GenerarCalendario generador = new GenerarCalendario();
-    Calendario calendario = generador.generarCalendario();
-
-    int opcionInterna;
-
-    do {
-        System.out.println("\n===== MENU USUARIO =====");
-        System.out.println("1. Agregar materia");
-        System.out.println("2. Ver calendario");
-        System.out.println("3. Ver materias");
-        System.out.println("4. Ver actividades pendientes");
-        System.out.println("5. Ver actividades calificadas");
-        System.out.println("0. Cerrar sesión");
-        System.out.print("Seleccione: ");
-        
-        opcionInterna = sc.nextInt();
-        sc.nextLine();
-
-        switch (opcionInterna) {
-
-            case 1:
-                System.out.println("\n--- AGREGAR MATERIA ---");
-
-                System.out.print("Nombre de la materia: ");
-                String nombreMateria = sc.nextLine();
-
-                System.out.print("Horario: ");
-                String horario = sc.nextLine();
-
-    
-                Materia materia = new Materia(nombreMateria, new ArrayList<>(), horario, null);
-
-        
-                if (E1.getMateriasCursando() == null) {
-                E1.setMateriasCursando(new java.util.ArrayList<>());
-                }
-
-                E1.getMateriasCursando().add(materia);
-
-                System.out.println("Materia agregada");
-                break;
-
-            case 2:
-                System.out.println("\n--- CALENDARIO ---");
-
-                Anio anio = calendario.getAnios().get(0);
-
-                 System.out.println("Seleccione un mes:");
-
-                for (int i = 0; i < anio.getMeses().size(); i++) {
-                    System.out.println((i + 1) + ". " + anio.getMeses().get(i).getNombre());
-                }
-
-                System.out.print("Opción: ");
-                int opcionMes = sc.nextInt();
-                sc.nextLine();
-
-                if (opcionMes >= 1 && opcionMes <= 12) {
-
-                Mes mesSeleccionado = anio.getMeses().get(opcionMes - 1);
-
-                System.out.println("\nMes: " + mesSeleccionado.getNombre());
-
-                for (Dia d : mesSeleccionado.getDias()) {
-                System.out.print(d.getNumero() + " ");
-                }
-
-                System.out.println(); // salto de línea
-
-                } else {
-                    System.out.println("Mes inválido");
+                        break;
                     }
 
-                break;
-                case 3:
-                    System.out.println("\n--- MATERIAS ---");
+                    Estudiante E1 = (Estudiante) logueado.getPersona();
 
-                    if (E1.getMateriasCursando() == null || E1.getMateriasCursando().isEmpty()) {
-                    System.out.println("No hay materias registradas");
-                } else {
-                for (Materia m : E1.getMateriasCursando()) {
-                System.out.println("- " + m.getNombre() + " | ID: " + m.getId());
-                }
-                }
+                    GenerarCalendario generador = new GenerarCalendario();
+                    Calendario calendario = generador.generarCalendario();
 
-                break;
-                case 4:
-                System.out.println("\n--- ACTIVIDADES PENDIENTES ---");
+                    int opcionInterna;
 
-                if (E1.getMateriasCursando() == null) {
-                System.out.println("No hay materias");
-                break;
-                }
+                    do {
 
-                for (Materia m : E1.getMateriasCursando()) {
+                        System.out.println("\n===== MENU USUARIO =====");
+                        System.out.println("1. Agregar materia");
+                        System.out.println("2. Ver calendario");
+                        System.out.println("3. Ver materias");
+                        System.out.println("4. Ver actividades pendientes");
+                        System.out.println("5. Ver actividades calificadas");
+                        System.out.println("6. Crear actividad");
+                        System.out.println("0. Cerrar sesión");
+                        System.out.print("Seleccione: ");
 
-                if (m.getActividades() != null) {
-                for (Actividad a : m.getActividades()) {
+                        opcionInterna = sc.nextInt();
+                        sc.nextLine();
 
-                if (a.getCalificacion() == 0) {
-                    System.out.println("Materia: " + m.getNombre());
-                    System.out.println("Actividad: " + a);
-                    System.out.println("-------------------");
-                }
-            }
-        }
-    }
+                        switch (opcionInterna) {
 
-                break;
-                case 5:
-                System.out.println("\n--- ACTIVIDADES CALIFICADAS ---");
+                            case 1: {
 
-                if (E1.getMateriasCursando() == null) {
-                System.out.println("No hay materias");
-                break;
-                }
+                                System.out.println("\n--- AGREGAR MATERIA ---");
 
-                for (Materia m : E1.getMateriasCursando()) {
+                                System.out.print("Nombre materia: ");
+                                String nombreMateria = sc.nextLine();
 
-                if (m.getActividades() != null) {
-                for (Actividad a : m.getActividades()) {
+                                System.out.print("Horario: ");
+                                String horario = sc.nextLine();
 
-                if (a.getCalificacion() > 0) {
-                    System.out.println("Materia: " + m.getNombre());
-                    System.out.println("Actividad: " + a);
-                    System.out.println("Calificación: " + a.getCalificacion());
-                    System.out.println("-------------------");
-                }
-            }
-        }
-    }
+                                System.out.print("Nombre profesor: ");
+                                String nombreProfesor = sc.nextLine();
 
-    break;
-            case 0:
-                System.out.println("Cerrando sesión...");
-                break;
+                                Profesor profesor = new Profesor();
+                                profesor.setNombres(nombreProfesor);
 
-            default:
-                System.out.println("Opción inválida");
-        }
+                                Materia materia = new Materia(nombreMateria, horario, profesor);
 
-    } while (opcionInterna != 0);
+                                if (E1.getMateriasCursando() == null) {
+                                    E1.setMateriasCursando(new ListaEnlazada<>());
+                                }
 
-} else {
-    System.out.println("Credenciales incorrectas");
-}
+                                E1.getMateriasCursando().agregar(materia);
+
+                                System.out.println("Materia agregada con ID: " + materia.getId());
+
+                                break;
+                            }
+
+                            case 2: {
+
+                                System.out.println("\n--- CALENDARIO ---");
+
+                                Nodo<Anio> nodoAnio = calendario.getAnios().getCabeza();
+                                Anio anio = nodoAnio.getDato();
+
+                                Nodo<Mes> nodoMes = anio.getMeses().getCabeza();
+
+                                int i = 1;
+                                System.out.println("Seleccione un mes:");
+
+                                while (nodoMes != null) {
+                                    System.out.println(i + ". " + nodoMes.getDato().getNombre());
+                                    nodoMes = nodoMes.getSiguiente();
+                                    i++;
+                                }
+
+                                System.out.print("Opción: ");
+                                int opcionMes = sc.nextInt();
+                                sc.nextLine();
+
+                                nodoMes = anio.getMeses().getCabeza();
+                                int c = 1;
+
+                                while (c < opcionMes) {
+                                    nodoMes = nodoMes.getSiguiente();
+                                    c++;
+                                }
+
+                                Mes mes = nodoMes.getDato();
+
+                                System.out.println("\nMes: " + mes.getNombre());
+
+                                Nodo<Dia> nodoDia = mes.getDias().getCabeza();
+
+                                while (nodoDia != null) {
+                                    System.out.print(nodoDia.getDato().getNumero() + " ");
+                                    nodoDia = nodoDia.getSiguiente();
+                                }
+
+                                System.out.println();
+
+                                break;
+                            }
+
+                            case 3: {
+
+                                System.out.println("\n--- MATERIAS ---");
+
+                                Nodo<Materia> aux = E1.getMateriasCursando().getCabeza();
+
+                                while (aux != null) {
+
+                                    Materia m = aux.getDato();
+
+                                    String profe = (m.getInstructor() != null)
+                                            ? m.getInstructor().getNombres()
+                                            : "Sin profesor";
+
+                                    System.out.println("- " + m.getNombre() +
+                                            " | " + m.getId() +
+                                            " | " + m.getHorario() +
+                                            " | Profesor: " + profe);
+
+                                    aux = aux.getSiguiente();
+                                }
+
+                                break;
+                            }
+
+                            case 4: {
+
+                                Nodo<Materia> aux = E1.getMateriasCursando().getCabeza();
+
+                                while (aux != null) {
+
+                                    Materia m = aux.getDato();
+                                    Nodo<Actividad> act = m.getActividades().getCabeza();
+
+                                    while (act != null) {
+
+                                        Actividad a = act.getDato();
+
+                                        if (a.getCalificacion() == 0) {
+                                            System.out.println("Materia: " + m.getNombre());
+                                            System.out.println("Actividad: " + a);
+                                            System.out.println("------------------");
+                                        }
+
+                                        act = act.getSiguiente();
+                                    }
+
+                                    aux = aux.getSiguiente();
+                                }
+
+                                break;
+                            }
+
+                            case 5: {
+
+                                Nodo<Materia> aux = E1.getMateriasCursando().getCabeza();
+
+                                while (aux != null) {
+
+                                    Materia m = aux.getDato();
+                                    Nodo<Actividad> act = m.getActividades().getCabeza();
+
+                                    while (act != null) {
+
+                                        Actividad a = act.getDato();
+
+                                        if (a.getCalificacion() > 0) {
+                                            System.out.println("Materia: " + m.getNombre());
+                                            System.out.println("Actividad: " + a);
+                                            System.out.println("Nota: " + a.getCalificacion());
+                                            System.out.println("------------------");
+                                        }
+
+                                        act = act.getSiguiente();
+                                    }
+
+                                    aux = aux.getSiguiente();
+                                }
+
+                                break;
+                            }
+
+                            case 6: {
+
+                                System.out.println("\n--- CREAR ACTIVIDAD ---");
+
+                                if (E1.getMateriasCursando() == null || E1.getMateriasCursando().getCabeza() == null) {
+
+                                    System.out.println("No hay materias registradas.");
+
+                                    System.out.print("Nombre materia: ");
+                                    String nombreMateria = sc.nextLine();
+
+                                    System.out.print("Horario: ");
+                                    String horario = sc.nextLine();
+
+                                    System.out.print("Nombre profesor: ");
+                                    String nombreProfesor = sc.nextLine();
+
+                                    Profesor profesor = new Profesor();
+                                    profesor.setNombres(nombreProfesor);
+
+                                    Materia nuevaMateria = new Materia(nombreMateria, horario, profesor);
+
+                                    E1.setMateriasCursando(new ListaEnlazada<>());
+                                    E1.getMateriasCursando().agregar(nuevaMateria);
+
+                                    System.out.println("Materia creada con ID: " + nuevaMateria.getId());
+                                }
+
+                                Nodo<Materia> aux = E1.getMateriasCursando().getCabeza();
+
+                                int index = 1;
+                                System.out.println("Seleccione una materia:");
+
+                                while (aux != null) {
+                                    System.out.println(index + ". " + aux.getDato().getNombre());
+                                    aux = aux.getSiguiente();
+                                    index++;
+                                }
+
+                                System.out.print("Opción: ");
+                                int opcionMateria = sc.nextInt();
+                                sc.nextLine();
+
+                                aux = E1.getMateriasCursando().getCabeza();
+                                int contador = 1;
+
+                                while (contador < opcionMateria) {
+                                    aux = aux.getSiguiente();
+                                    contador++;
+                                }
+
+                                Materia materiaSeleccionada = aux.getDato();
+
+                                System.out.println("\nTipo de actividad:");
+                                System.out.println("1. Parcial");
+                                System.out.println("2. Quiz");
+                                System.out.println("3. Taller");
+                                System.out.print("Seleccione: ");
+
+                                int tipo = sc.nextInt();
+                                sc.nextLine();
+
+                                System.out.print("Calificación inicial: ");
+                                int calificacion = sc.nextInt();
+                                sc.nextLine();
+
+                                System.out.print("Fecha: ");
+                                String fecha = sc.nextLine();
+
+                                System.out.print("Hora: ");
+                                String hora = sc.nextLine();
+
+                                System.out.print("Fecha entrega: ");
+                                String fechaEntrega = sc.nextLine();
+
+                                System.out.print("Hora entrega: ");
+                                String horaEntrega = sc.nextLine();
+
+                                System.out.print("¿Es grupal? (true/false): ");
+                                boolean grupal = sc.nextBoolean();
+                                sc.nextLine();
+
+                                Actividad actividad = null;
+
+                                switch (tipo) {
+
+                                    case 1: {
+
+                                        System.out.print("Número de preguntas: ");
+                                        int numPreguntas = sc.nextInt();
+                                        sc.nextLine();
+
+                                        System.out.print("Tiempo: ");
+                                        String tiempo = sc.nextLine();
+
+                                        actividad = new Parcial(calificacion, fecha, hora,
+                                                fechaEntrega, horaEntrega, grupal,
+                                                numPreguntas, tiempo);
+                                        break;
+                                    }
+
+                                    case 2: {
+
+                                        System.out.print("Número de quiz: ");
+                                        int numQuiz = sc.nextInt();
+
+                                        System.out.print("Número de preguntas: ");
+                                        int numPreguntas = sc.nextInt();
+                                        sc.nextLine();
+
+                                        System.out.print("Tiempo: ");
+                                        String tiempo = sc.nextLine();
+
+                                        actividad = new Quiz(calificacion, fecha, hora,
+                                                fechaEntrega, horaEntrega, grupal,
+                                                numQuiz, numPreguntas, tiempo);
+                                        break;
+                                    }
+
+                                    case 3: {
+
+                                        System.out.print("Tipo de entrega: ");
+                                        String tipoEntrega = sc.nextLine();
+
+                                        System.out.print("Descripción: ");
+                                        String descripcion = sc.nextLine();
+
+                                        actividad = new Taller(calificacion, fecha, hora,
+                                                fechaEntrega, horaEntrega, grupal,
+                                                tipoEntrega, descripcion);
+                                        break;
+                                    }
+                                }
+
+                                if (actividad != null) {
+                                    materiaSeleccionada.agregarActividad(actividad);
+                                    System.out.println("Actividad creada correctamente");
+                                }
+
+                                break;
+                            }
+                        }
+
+                    } while (opcionInterna != 0);
+
                     break;
+                }
 
                 case 0:
                     System.out.println("Saliendo...");
@@ -269,4 +438,3 @@ public class Main {
         sc.close();
     }
 }
-
