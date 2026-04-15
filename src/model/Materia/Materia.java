@@ -1,5 +1,5 @@
 package model.Materia;
-
+import Servicio.ArbolAVL.*;
 import model.Actividad.*;
 import model.Persona.*;
 import Servicio.ListaEnlazada.*;
@@ -59,7 +59,70 @@ public class Materia {
 
         return count == 0 ? 0 : (double) suma / count;
     }
+    public void ordenarPorPrioridad() {
 
+    if (actividades == null || actividades.getCabeza() == null) return;
+
+    boolean swapped;
+
+    do {
+        swapped = false;
+
+        Nodo<Actividad> actual = actividades.getCabeza();
+
+        while (actual != null && actual.getSiguiente() != null) {
+
+            Actividad a1 = actual.getDato();
+            Actividad a2 = actual.getSiguiente().getDato();
+
+            if (a1.getImportancia() < a2.getImportancia()) {
+
+                Actividad temp = actual.getDato();
+                actual.setDato(actual.getSiguiente().getDato());  
+                actual.getSiguiente().setDato(temp);
+
+                swapped = true;
+            }
+
+            actual = actual.getSiguiente();
+        }
+
+    } while (swapped);
+}
+public void mostrarActividadesOrdenadas() {
+
+    if (actividades == null || actividades.getCabeza() == null) {
+        System.out.println("No hay actividades");
+        return;
+    }
+
+    Nodo<Actividad> i = actividades.getCabeza();
+
+    while (i != null) {
+        Nodo<Actividad> j = i.getSiguiente();
+
+        while (j != null) {
+
+            if (i.getDato().getImportancia() < j.getDato().getImportancia()) {
+                Actividad temp = i.getDato();
+                i.setDato(j.getDato());
+                j.setDato(temp);
+            }
+
+            j = j.getSiguiente();
+        }
+
+        i = i.getSiguiente();
+    }
+
+  
+    Nodo<Actividad> aux = actividades.getCabeza();
+
+    while (aux != null) {
+        System.out.println(aux.getDato());
+        aux = aux.getSiguiente();
+    }
+}
     @Override
     public String toString() {
         return "Materia: " + nombre + " (" + id + ")";

@@ -109,7 +109,7 @@ public class Main {
                         System.out.println("1. Agregar materia");
                         System.out.println("2. Ver calendario");
                         System.out.println("3. Ver materias");
-                        System.out.println("4. Ver actividades pendientes");
+                        System.out.println("4. Ver actividades pendientes (por prioridad)");
                         System.out.println("5. Ver actividades calificadas");
                         System.out.println("6. Crear actividad");
                         System.out.println("0. Cerrar sesión");
@@ -222,25 +222,19 @@ public class Main {
 
                             case 4: {
 
+                                System.out.println("\n--- ACTIVIDADES PENDIENTES (POR PRIORIDAD) ---");
+
                                 Nodo<Materia> aux = E1.getMateriasCursando().getCabeza();
 
                                 while (aux != null) {
 
                                     Materia m = aux.getDato();
-                                    Nodo<Actividad> act = m.getActividades().getCabeza();
 
-                                    while (act != null) {
+                                    System.out.println("\nMateria: " + m.getNombre());
 
-                                        Actividad a = act.getDato();
+                                    m.ordenarPorPrioridad();
 
-                                        if (a.getCalificacion() == 0) {
-                                            System.out.println("Materia: " + m.getNombre());
-                                            System.out.println("Actividad: " + a);
-                                            System.out.println("------------------");
-                                        }
-
-                                        act = act.getSiguiente();
-                                    }
+                                    m.mostrarActividadesOrdenadas();
 
                                     aux = aux.getSiguiente();
                                 }
@@ -249,6 +243,8 @@ public class Main {
                             }
 
                             case 5: {
+
+                                System.out.println("\n--- ACTIVIDADES CALIFICADAS ---");
 
                                 Nodo<Materia> aux = E1.getMateriasCursando().getCabeza();
 
@@ -264,7 +260,6 @@ public class Main {
                                         if (a.getCalificacion() > 0) {
                                             System.out.println("Materia: " + m.getNombre());
                                             System.out.println("Actividad: " + a);
-                                            System.out.println("Nota: " + a.getCalificacion());
                                             System.out.println("------------------");
                                         }
 
@@ -280,30 +275,6 @@ public class Main {
                             case 6: {
 
                                 System.out.println("\n--- CREAR ACTIVIDAD ---");
-
-                                if (E1.getMateriasCursando() == null || E1.getMateriasCursando().getCabeza() == null) {
-
-                                    System.out.println("No hay materias registradas.");
-
-                                    System.out.print("Nombre materia: ");
-                                    String nombreMateria = sc.nextLine();
-
-                                    System.out.print("Horario: ");
-                                    String horario = sc.nextLine();
-
-                                    System.out.print("Nombre profesor: ");
-                                    String nombreProfesor = sc.nextLine();
-
-                                    Profesor profesor = new Profesor();
-                                    profesor.setNombres(nombreProfesor);
-
-                                    Materia nuevaMateria = new Materia(nombreMateria, horario, profesor);
-
-                                    E1.setMateriasCursando(new ListaEnlazada<>());
-                                    E1.getMateriasCursando().agregar(nuevaMateria);
-
-                                    System.out.println("Materia creada con ID: " + nuevaMateria.getId());
-                                }
 
                                 Nodo<Materia> aux = E1.getMateriasCursando().getCabeza();
 
@@ -339,16 +310,6 @@ public class Main {
                                 int tipo = sc.nextInt();
                                 sc.nextLine();
 
-                                System.out.print("Calificación inicial: ");
-                                int calificacion = sc.nextInt();
-                                sc.nextLine();
-
-                                System.out.print("Fecha: ");
-                                String fecha = sc.nextLine();
-
-                                System.out.print("Hora: ");
-                                String hora = sc.nextLine();
-
                                 System.out.print("Fecha entrega: ");
                                 String fechaEntrega = sc.nextLine();
 
@@ -357,6 +318,10 @@ public class Main {
 
                                 System.out.print("¿Es grupal? (true/false): ");
                                 boolean grupal = sc.nextBoolean();
+                                sc.nextLine();
+
+                                System.out.print("Grado de importancia (1-10): ");
+                                int importancia = sc.nextInt();
                                 sc.nextLine();
 
                                 Actividad actividad = null;
@@ -372,9 +337,11 @@ public class Main {
                                         System.out.print("Tiempo: ");
                                         String tiempo = sc.nextLine();
 
-                                        actividad = new Parcial(calificacion, fecha, hora,
-                                                fechaEntrega, horaEntrega, grupal,
-                                                numPreguntas, tiempo);
+                                        actividad = new Parcial(
+                                                0, fechaEntrega, horaEntrega,
+                                                grupal, importancia,
+                                                numPreguntas, tiempo
+                                        );
                                         break;
                                     }
 
@@ -390,9 +357,11 @@ public class Main {
                                         System.out.print("Tiempo: ");
                                         String tiempo = sc.nextLine();
 
-                                        actividad = new Quiz(calificacion, fecha, hora,
-                                                fechaEntrega, horaEntrega, grupal,
-                                                numQuiz, numPreguntas, tiempo);
+                                        actividad = new Quiz(
+                                                0, fechaEntrega, horaEntrega,
+                                                grupal, importancia,
+                                                numQuiz, numPreguntas, tiempo
+                                        );
                                         break;
                                     }
 
@@ -404,9 +373,11 @@ public class Main {
                                         System.out.print("Descripción: ");
                                         String descripcion = sc.nextLine();
 
-                                        actividad = new Taller(calificacion, fecha, hora,
-                                                fechaEntrega, horaEntrega, grupal,
-                                                tipoEntrega, descripcion);
+                                        actividad = new Taller(
+                                                0, fechaEntrega, horaEntrega,
+                                                grupal, importancia,
+                                                tipoEntrega, descripcion
+                                        );
                                         break;
                                     }
                                 }
