@@ -1,10 +1,11 @@
 package Servicio.SistemaNotificaciones;
+
 import model.Materia.*;
 import model.Actividad.*;
-import Servicio.ListaEnlazada.*;
 import model.Persona.Estudiante;
-public class NotificationBuilder {
+import Servicio.ListaEnlazada.*;
 
+public class NotificationBuilder {
 
     public static String construirResumen(Estudiante est) {
 
@@ -24,7 +25,6 @@ public class NotificationBuilder {
         while (aux != null) {
 
             Materia m = aux.getDato();
-
             Nodo<Actividad> act = m.getActividades().getCabeza();
 
             sb.append("\n📚 ").append(m.getNombre()).append(":\n");
@@ -36,10 +36,19 @@ public class NotificationBuilder {
                 Actividad a = act.getDato();
 
                 if (a.getCalificacion() == 0) {
-                    sb.append(" - ").append(a.getClass().getSimpleName())
+
+                    sb.append(" - ")
+                      .append(a.getClass().getSimpleName())
                       .append(" | Fecha: ").append(a.getFechaEntrega())
-                      .append(" | Hora: ").append(a.getHoraEntrega())
-                      .append("\n");
+                      .append(" | Hora: ").append(a.getHoraEntrega());
+
+                    if (a instanceof Taller) {
+                        Taller t = (Taller) a;
+                        sb.append(" | Descripción: ").append(t.getDescripcion());
+                    }
+
+                    sb.append("\n");
+
                     hay = true;
                 }
 

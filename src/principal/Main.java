@@ -3,6 +3,8 @@ package principal;
 import Servicio.ListaEnlazada.*;
 import model.InicioSesion.*;
 import Servicio.ValidacionIniSesi;
+import Servicio.ArbolAVL.AVLActividad;
+import Servicio.ComparadorFechas;
 import Servicio.GenerarCalendario;
 import Servicio.SistemaNotificaciones.*;
 import model.Persona.*;
@@ -171,25 +173,58 @@ public class Main {
 
                             case 2: {
 
-                                System.out.println("\n--- CRONOGRAMA ---");
+                                    System.out.println("\n--- CRONOGRAMA ---");
 
-                                Nodo<Materia> aux = est.getMateriasCursando().getCabeza();
+                                    ListaEnlazada<Actividad> todas = new ListaEnlazada<>();
 
-                                while (aux != null) {
+                                    Nodo<Materia> aux = est.getMateriasCursando().getCabeza();
+
+                                    while (aux != null) {
 
                                     Nodo<Actividad> act = aux.getDato().getActividades().getCabeza();
 
                                     while (act != null) {
-                                        System.out.println(act.getDato());
-                                        act = act.getSiguiente();
+                                    todas.agregar(act.getDato());
+                                    act = act.getSiguiente();
                                     }
 
                                     aux = aux.getSiguiente();
-                                }
+                                    }
 
-                                break;
-                            }
+    
+                                    Nodo<Actividad> i = todas.getCabeza();
 
+                                    while (i != null) {
+
+                                    Nodo<Actividad> j = i.getSiguiente();
+
+                                    while (j != null) {
+
+                                    Actividad a1 = i.getDato();
+                                    Actividad a2 = j.getDato();
+
+                                     if (ComparadorFechas.esMenor(a2.getFechaEntrega(), a1.getFechaEntrega())) {
+
+                                    Actividad temp = i.getDato();
+                                    i.setDato(j.getDato());
+                                    j.setDato(temp);
+                                    }
+
+                                    j = j.getSiguiente();
+                                    }
+
+                                    i = i.getSiguiente();
+                                    }
+
+                                    Nodo<Actividad> p = todas.getCabeza();
+
+                                    while (p != null) {
+                                    System.out.println(p.getDato());
+                                    p = p.getSiguiente();
+                                    }
+
+                                    break;
+                                    }
                             case 3: {
 
                                 System.out.println("\n--- MATERIAS ---");
@@ -204,36 +239,41 @@ public class Main {
                                 break;
                             }
 
-                            case 4: {
+                           case 4: {
 
-                                System.out.println("\n--- ACTIVIDADES PENDIENTES (TALLER) ---");
+                            System.out.println("\n--- ACTIVIDADES PENDIENTES (TALLER ORDENADO POR IMPORTANCIA) ---");
 
-                                Nodo<Materia> aux = est.getMateriasCursando().getCabeza();
+                            Nodo<Materia> aux = est.getMateriasCursando().getCabeza();
 
-                                while (aux != null) {
+                            AVLActividad arbol = new AVLActividad();
 
-                                    Materia m = aux.getDato();
-                                    Nodo<Actividad> act = m.getActividades().getCabeza();
+                            while (aux != null) {
 
-                                    System.out.println("\nMateria: " + m.getNombre());
+                            Materia m = aux.getDato();
+                            Nodo<Actividad> act = m.getActividades().getCabeza();
 
-                                    while (act != null) {
+                            System.out.println("\nMateria: " + m.getNombre());
 
-                                        Actividad a = act.getDato();
+                            while (act != null) {
 
-                                        if (a instanceof Taller && a.getCalificacion() == 0) {
-                                            System.out.println(a);
-                                        }
+                            Actividad a = act.getDato();
 
-                                        act = act.getSiguiente();
-                                    }
-
-                                    aux = aux.getSiguiente();
-                                }
-
-                                break;
+           
+                            if (a instanceof Taller && a.getCalificacion() == 0) {
+                            arbol.insertar(a);
                             }
 
+                            act = act.getSiguiente();
+                            }
+
+                            aux = aux.getSiguiente();
+                            }
+
+    
+                            arbol.inOrder();
+
+                            break;
+                            }
                             case 5: {
 
                                 System.out.println("\n--- PRÓXIMAS EVALUACIONES (PARCIAL / QUIZ) ---");
